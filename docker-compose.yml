@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_colpaz
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: colpaz_db
+      MYSQL_USER: colpaz_user
+      MYSQL_PASSWORD: colpaz_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - colpaz_mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: pma_colpaz
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: colpaz_user
+      PMA_PASSWORD: colpaz_pass
+
+  maildev:
+    image: maildev/maildev
+    container_name: maildev_colpaz
+    restart: always
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+
+volumes:
+  colpaz_mysql_data:
