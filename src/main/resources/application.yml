@@ -10,7 +10,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -27,3 +27,7 @@ spring:
           auth: false
           starttls:
             enable: false
+
+jwt:
+  secret: nAqTWY5+Ap7uL1Rg1+0lcvFVxxN9YTvZT7aL5HnFtzDdBFXsR3IgQ3fHq/akxDqHqkAK2C+kzAh0zJvTlyPtxg==
+  expiration-ms: 3600000
