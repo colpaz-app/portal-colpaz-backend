@@ -1,6 +1,7 @@
 package com.colpaz.colpaz.role.services;
 
 import com.colpaz.colpaz.role.*;
+import com.colpaz.colpaz.role.exceptions.RoleAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,10 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleResponse createRole(RoleRequest request) {
+        if (roleRepository.findByName(request.getName()).isPresent()) {
+            throw new RoleAlreadyExistsException("El rol con nombre '" + request.getName() + "' ya existe.");
+        }
+
         Role role = new Role();
         role.setName(request.getName());
         role.setCreatedBy(request.getCreatedBy());

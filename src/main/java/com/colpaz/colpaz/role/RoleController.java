@@ -1,6 +1,7 @@
 package com.colpaz.colpaz.role;
 
 import com.colpaz.colpaz.role.services.RoleService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +16,7 @@ public class RoleController {
     private final RoleService roleService;
 
     @PostMapping
-    public ResponseEntity<RoleResponse> createRole(@RequestBody RoleRequest request) {
+    public ResponseEntity<RoleResponse> createRole(@Valid @RequestBody RoleRequest request) {
         RoleResponse response = roleService.createRole(request);
         return ResponseEntity.ok(response);
     }

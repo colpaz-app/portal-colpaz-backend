@@ -1,6 +1,7 @@
 package com.colpaz.colpaz.userAccount;
 
 import com.colpaz.colpaz.userAccount.services.UserAccountService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +17,7 @@ public class UserAccountController {
     private final UserAccountService userAccountService;
 
     @PostMapping
-    public ResponseEntity<UserAccountResponse> createUser(@RequestBody UserAccountRequest request) {
+    public ResponseEntity<UserAccountResponse> createUser(@Valid @RequestBody UserAccountRequest request) {
         UserAccountResponse response = userAccountService.createUser(request);
         return ResponseEntity.ok(response);
     }
