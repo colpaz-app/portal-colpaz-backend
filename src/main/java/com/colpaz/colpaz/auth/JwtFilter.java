@@ -1,5 +1,6 @@
 package com.colpaz.colpaz.auth;
 
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,6 +48,8 @@ public class JwtFilter  extends OncePerRequestFilter {
                 );
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+            } else {
+                throw new JwtException("Invalid or expired JWT token");
             }
         }
 
