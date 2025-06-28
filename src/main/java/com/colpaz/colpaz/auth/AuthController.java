@@ -2,6 +2,7 @@ package com.colpaz.colpaz.auth;
 
 import com.colpaz.colpaz.auth.dto.AuthRequest;
 import com.colpaz.colpaz.auth.dto.AuthResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,7 +27,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public AuthResponse authenticate(@RequestBody AuthRequest request) {
+    public AuthResponse authenticate(@Valid @RequestBody AuthRequest request) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
