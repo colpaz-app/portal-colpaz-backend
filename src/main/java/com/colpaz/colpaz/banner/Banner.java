@@ -1,5 +1,6 @@
 package com.colpaz.colpaz.banner;
 
+import com.colpaz.colpaz.bannerTranslation.BannerTranslation;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -38,4 +40,7 @@ public class Banner {
 
     @UpdateTimestamp
     private LocalDateTime modifiedAt;
+
+    @OneToMany(mappedBy = "banner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BannerTranslation> translations;
 }

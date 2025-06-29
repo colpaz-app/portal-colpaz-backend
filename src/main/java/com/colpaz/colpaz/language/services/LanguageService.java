@@ -9,4 +9,5 @@ public interface LanguageService {
     LanguageResponse create(LanguageRequest request);
     List<LanguageResponse> findAll();
     LanguageResponse findByCode(String code);
+    LanguageResponse updateName(String code, String newName);
 }

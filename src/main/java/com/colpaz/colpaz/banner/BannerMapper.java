@@ -2,10 +2,21 @@ package com.colpaz.colpaz.banner;
 
 import com.colpaz.colpaz.banner.dto.BannerRequest;
 import com.colpaz.colpaz.banner.dto.BannerResponse;
+import com.colpaz.colpaz.bannerTranslation.BannerTranslationMapper;
+import com.colpaz.colpaz.bannerTranslation.dto.BannerTranslationResponse;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class BannerMapper {
+
+    private final BannerTranslationMapper translationMapper;
+
+    public BannerMapper(BannerTranslationMapper translationMapper) {
+        this.translationMapper = translationMapper;
+    }
 
     public Banner toEntity(BannerRequest request) {
         Banner banner = new Banner();
@@ -15,6 +26,7 @@ public class BannerMapper {
         banner.setStartDate(request.getStartDate());
         banner.setEndDate(request.getEndDate());
         banner.setIsActive(request.getIsActive());
+
         return banner;
     }
 
@@ -27,9 +39,17 @@ public class BannerMapper {
         response.setStartDate(banner.getStartDate());
         response.setEndDate(banner.getEndDate());
         response.setIsActive(banner.getIsActive());
-        response.setCreatedBy(banner.getCreatedBy());
         response.setCreatedAt(banner.getCreatedAt());
         response.setModifiedAt(banner.getModifiedAt());
+        response.setCreatedBy(banner.getCreatedBy());
+
+        if (banner.getTranslations() != null) {
+            List<BannerTranslationResponse> translations = banner.getTranslations().stream()
+                    .map(translationMapper::toResponse)
+                    .collect(Collectors.toList());
+            response.setTranslations(translations);
+        }
+
         return response;
     }
 }

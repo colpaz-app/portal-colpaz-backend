@@ -5,7 +5,11 @@ import com.colpaz.colpaz.banner.BannerMapper;
 import com.colpaz.colpaz.banner.BannerRepository;
 import com.colpaz.colpaz.banner.dto.BannerRequest;
 import com.colpaz.colpaz.banner.dto.BannerResponse;
+import com.colpaz.colpaz.bannerTranslation.BannerTranslation;
+import com.colpaz.colpaz.bannerTranslation.BannerTranslationMapper;
+import com.colpaz.colpaz.bannerTranslation.BannerTranslationRepository;
 import com.colpaz.colpaz.exceptions.ResourceNotFoundException;
+import com.colpaz.colpaz.language.LanguageRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,12 +19,24 @@ import java.util.stream.Collectors;
 @Service
 public class BannerServiceImpl implements BannerService{
 
+    private final BannerTranslationRepository translationRepository;
+    private final LanguageRepository languageRepository;
+    private final BannerTranslationMapper translationMapper;
     private final BannerRepository repository;
     private final BannerMapper mapper;
 
-    public BannerServiceImpl(BannerRepository repository, BannerMapper mapper) {
+    public BannerServiceImpl(
+            BannerRepository repository,
+            BannerMapper mapper,
+            BannerTranslationRepository translationRepository,
+            LanguageRepository languageRepository,
+            BannerTranslationMapper translationMapper
+    ) {
         this.repository = repository;
         this.mapper = mapper;
+        this.translationRepository = translationRepository;
+        this.languageRepository = languageRepository;
+        this.translationMapper = translationMapper;
     }
 
     @Override
@@ -29,7 +45,23 @@ public class BannerServiceImpl implements BannerService{
         banner.setCreatedBy(createdBy);
         banner.setCreatedAt(LocalDateTime.now());
         banner.setModifiedAt(LocalDateTime.now());
-        return mapper.toResponse(repository.save(banner));
+
+        Banner savedBanner = repository.save(banner);
+
+        if (request.getTranslations() != null) {
+            List<BannerTranslation> translations = request.getTranslations().stream()
+                    .map(treq -> translationMapper.toEntity(treq, savedBanner,
+                            languageRepository.findById(treq.getLanguageId())
+                                    .orElseThrow(() -> new ResourceNotFoundException("Idioma no encontrado con ID: " + treq.getLanguageId()))
+                    ))
+                    .collect(Collectors.toList());
+
+            translationRepository.saveAll(translations);
+
+            savedBanner.setTranslations(translations);
+        }
+
+        return mapper.toResponse(savedBanner);
     }
 
     @Override

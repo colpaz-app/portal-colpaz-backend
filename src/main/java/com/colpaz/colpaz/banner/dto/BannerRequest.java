@@ -1,10 +1,13 @@
 package com.colpaz.colpaz.banner.dto;
 
+import com.colpaz.colpaz.bannerTranslation.dto.BannerTranslationRequest;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -32,4 +35,7 @@ public class BannerRequest {
 
     @NotNull(message = "El estado activo/inactivo es obligatorio")
     private Boolean isActive;
+
+    @Valid
+    private List<BannerTranslationRequest> translations;
 }

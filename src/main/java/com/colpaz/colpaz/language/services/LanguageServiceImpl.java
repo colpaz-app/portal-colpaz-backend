@@ -50,6 +50,22 @@ public class LanguageServiceImpl implements LanguageService {
     }
 
     @Override
+    public LanguageResponse updateName(String code, String newName) {
+        Language language = repository.findByCode(code.toUpperCase())
+                .orElseThrow(() -> new ResourceNotFoundException("Idioma no encontrado con código: " + code));
+
+        boolean nameExists = repository.findAll().stream()
+                .anyMatch(lang -> !lang.getCode().equalsIgnoreCase(code) &&
+                        lang.getName().equalsIgnoreCase(newName));
+        if (nameExists) {
+            throw new IllegalArgumentException("Ya existe un idioma con ese nombre");
+        }
+
+        language.setName(newName);
+        return mapper.toResponse(repository.save(language));
+    }
+
+    @Override
     public LanguageResponse findByCode(String code) {
         Language language = repository.findByCode(code)
                 .orElseThrow(() -> new ResourceNotFoundException("Idioma no encontrado"));

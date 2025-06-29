@@ -28,6 +28,12 @@ public class LanguageController {
         return service.findAll();
     }
 
+    @PutMapping("/{code}")
+    public LanguageResponse updateName(@PathVariable String code,
+                                       @RequestParam("name") String name) {
+        return service.updateName(code, name);
+    }
+
     @GetMapping("/{code}")
     public LanguageResponse findByCode(@PathVariable String code) {
         return service.findByCode(code);
