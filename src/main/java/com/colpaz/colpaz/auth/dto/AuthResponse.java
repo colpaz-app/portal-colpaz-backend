@@ -1,5 +1,6 @@
 package com.colpaz.colpaz.auth.dto;
 
+import com.colpaz.colpaz.userAccount.UserAccountResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,4 +10,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AuthResponse {
     private String token;
+    private UserAccountResponse user;
 }

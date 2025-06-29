@@ -2,6 +2,10 @@ package com.colpaz.colpaz.auth;
 
 import com.colpaz.colpaz.auth.dto.AuthRequest;
 import com.colpaz.colpaz.auth.dto.AuthResponse;
+import com.colpaz.colpaz.customUser.CustomUserDetails;
+import com.colpaz.colpaz.userAccount.UserAccount;
+import com.colpaz.colpaz.userAccount.UserAccountMapper;
+import com.colpaz.colpaz.userAccount.UserAccountResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,11 +23,14 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
+    private final UserAccountMapper userAccountMapper;
+
 
     @Autowired
-    public AuthController(AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
+    public AuthController(AuthenticationManager authenticationManager, JwtUtils jwtUtils, UserAccountMapper userAccountMapper) {
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
+        this.userAccountMapper = new UserAccountMapper();
     }
 
     @PostMapping("/login")
@@ -35,6 +42,10 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtUtils.generateToken(request.getUsername());
 
-        return new AuthResponse(token);
+        CustomUserDetails customUser = (CustomUserDetails) authentication.getPrincipal();
+        UserAccount user = customUser.getUserAccount();
+        UserAccountResponse response = userAccountMapper.toResponse(user);
+
+        return new AuthResponse(token, response);
     }
 }
