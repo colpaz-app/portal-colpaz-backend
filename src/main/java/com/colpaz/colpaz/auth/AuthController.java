@@ -30,7 +30,7 @@ public class AuthController {
     public AuthController(AuthenticationManager authenticationManager, JwtUtils jwtUtils, UserAccountMapper userAccountMapper) {
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
-        this.userAccountMapper = new UserAccountMapper();
+        this.userAccountMapper = userAccountMapper;
     }
 
     @PostMapping("/login")
