@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<Object> handleNotFound(ResourceNotFoundException ex, WebRequest request) {
+    public ResponseEntity<Object> handleNotFound(ResourceNotFoundException ex) {
         return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
@@ -53,7 +53,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleGeneric(Exception ex) {
+    public ResponseEntity<Object> handleGeneric() {
         return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor");
     }
 
