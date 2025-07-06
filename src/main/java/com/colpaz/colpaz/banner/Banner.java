@@ -23,6 +23,9 @@ public class Banner {
 
     private String title;
 
+    @Column(length = 800)
+    private String description;
+
     private String imageUrl;
 
     private String link;

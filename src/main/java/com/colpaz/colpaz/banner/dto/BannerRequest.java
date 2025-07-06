@@ -12,9 +12,11 @@ import java.util.List;
 @Getter
 @Setter
 public class BannerRequest {
-    @NotBlank(message = "El título es obligatorio")
     @Size(max = 100, message = "El título no puede tener más de 100 caracteres")
     private String title;
+
+    @Size(max = 800, message = "La descripción no puede tener más de 500 caracteres")
+    private String description;
 
     @NotBlank(message = "La URL de la imagen es obligatoria")
     @Size(max = 255, message = "La URL de la imagen no puede tener más de 255 caracteres")
@@ -26,7 +28,6 @@ public class BannerRequest {
     private String link;
 
     @NotNull(message = "La fecha de inicio es obligatoria")
-    @FutureOrPresent(message = "La fecha de inicio debe ser hoy o en el futuro")
     private LocalDate startDate;
 
     @NotNull(message = "La fecha de fin es obligatoria")

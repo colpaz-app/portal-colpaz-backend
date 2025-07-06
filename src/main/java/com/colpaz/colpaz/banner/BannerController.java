@@ -31,6 +31,11 @@ public class BannerController {
         return bannerService.findAll();
     }
 
+    @GetMapping("/public/banners")
+    public List<BannerResponse> getAllPublicBanners() {
+        return bannerService.findAll();
+    }
+
     @GetMapping("/{id}")
     public BannerResponse getById(@PathVariable Long id) {
         return bannerService.findById(id);

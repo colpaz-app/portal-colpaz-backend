@@ -13,6 +13,7 @@ import java.util.List;
 public class BannerResponse {
     private Long id;
     private String title;
+    private String description;
     private String imageUrl;
     private String link;
     private LocalDate startDate;

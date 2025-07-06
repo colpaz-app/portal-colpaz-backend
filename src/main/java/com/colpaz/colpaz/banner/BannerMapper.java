@@ -21,6 +21,7 @@ public class BannerMapper {
     public Banner toEntity(BannerRequest request) {
         Banner banner = new Banner();
         banner.setTitle(request.getTitle());
+        banner.setDescription(request.getDescription());
         banner.setImageUrl(request.getImageUrl());
         banner.setLink(request.getLink());
         banner.setStartDate(request.getStartDate());
@@ -34,6 +35,7 @@ public class BannerMapper {
         BannerResponse response = new BannerResponse();
         response.setId(banner.getId());
         response.setTitle(banner.getTitle());
+        response.setDescription(banner.getDescription());
         response.setImageUrl(banner.getImageUrl());
         response.setLink(banner.getLink());
         response.setStartDate(banner.getStartDate());
