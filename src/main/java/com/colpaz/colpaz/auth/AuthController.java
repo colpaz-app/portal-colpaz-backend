@@ -66,7 +66,7 @@ public class AuthController {
 
         String username = jwtUtils.getUsernameFromToken(refreshToken);
 
-        UserDetails userDetails = (UserDetails) userDetailsService.loadUserByUsername(username);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         CustomUserDetails customUser = (CustomUserDetails) userDetails;
         UserAccount user = customUser.getUserAccount();
         UserAccountResponse userResponse = userAccountMapper.toResponse(user);
