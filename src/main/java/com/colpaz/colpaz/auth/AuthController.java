@@ -72,7 +72,7 @@ public class AuthController {
         UserAccountResponse userResponse = userAccountMapper.toResponse(user);
 
         String newAccessToken = jwtUtils.generateToken(username);
-        String newRefreshToken = jwtUtils.generateRefreshToken(username); // Opcionalmente lo puedes mantener igual
+        String newRefreshToken = jwtUtils.generateRefreshToken(username);
 
         return new AuthResponse(newAccessToken, newRefreshToken, userResponse);
     }
